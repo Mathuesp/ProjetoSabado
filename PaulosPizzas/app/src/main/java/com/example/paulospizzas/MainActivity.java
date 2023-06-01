@@ -69,18 +69,24 @@ public class MainActivity extends AppCompatActivity {
         spSabores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (qtdSabores == 0){
+                boolean vazio = !((String) spSabores.getItemAtPosition(position)).equals("");
+
+                if (qtdSabores == 0 && vazio){
                     Toast.makeText(MainActivity.this,"Para que possa selecionar um sabor é necessário escolher o tamanho da pizza!", Toast.LENGTH_LONG).show();
-                } else if (qtdSelecionada < qtdSabores && !((String) spSabores.getItemAtPosition(position)).equals("")) {
+                } else if (qtdSelecionada < qtdSabores && vazio) {
                     qtdSelecionada+=1;
                     saborSelecionado = (String) spSabores.getItemAtPosition(position);
                     adicionaSabor(saborSelecionado);
                     atualizaPedido();
-                } else if (qtdSelecionada == qtdSabores){
+                }
+
+                if (qtdSelecionada == qtdSabores && qtdSabores != 0 && vazio){
                     Toast.makeText(MainActivity.this,"O limite de sabores, para o tamanho de pizza escolhido, foi atingido!", Toast.LENGTH_LONG).show();
                 }
 
-                spSabores.setSelection(0);
+                if (vazio){
+                    spSabores.setSelection(0);
+                }
             }
 
             @Override
